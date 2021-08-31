@@ -21,6 +21,12 @@ mn <- subset(df, B1 == "No")
 #load only those of df who reported on troubles with mental health
 mi <- subset(df, B1 != "No")
 
+#load only those of df who did not report on troubles with mental health
+mn_men <- subset(df, B2 == "No")
+
+#load only those of df who reported on troubles with mental health
+mi_men <- subset(df, B2 != "No")
+
 #GET LIST OF ALL MAJORS CONTAINING MIed STUDENTS
 mi_maj <- subset(mi, select = c("A2"))
 print(mi_maj)
@@ -58,6 +64,14 @@ lbls <- paste(lbls,"%",sep="") # ad % to labels
 pie(slices,labels = lbls, col=rainbow(length(lbls)),
     main="Spread of mental complaint among surveyed")
 
+
+slices_yn <- c(nrow(mi), nrow(mn))
+lbls_yn <- c("Yes", "No")
+pct_yn <- round(slices_yn/sum(slices_yn)*100)
+lbls_yn <- paste(lbls_yn, pct_yn) # add percents to labels
+lbls_yn <- paste(lbls_yn,"%",sep="") # ad % to labels
+pie(slices_yn,labels = lbls_yn, col=rainbow(length(lbls_yn)),
+    main="Spread of mental complaint among surveyed")
 
 slices_yn <- c(nrow(mi), nrow(mn))
 lbls_yn <- c("Yes", "No")
