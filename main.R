@@ -9,7 +9,6 @@ mn <- subset(df, B1 == "No" & B2 == "No")
 #load only those of df who reported on troubles with mental health
 mi <- subset(df, B1 != "No" & B2 != "No")
 
-
 #create a pie chart demonstrating ratio mental issues vs. no mental issues
 slices_yn <- c(nrow(mi), nrow(mn))
 lbls_yn <- c("Have troubles", 
@@ -21,6 +20,23 @@ pie(slices_yn,labels = lbls_yn, col=cm.colors(length(lbls_yn)),
     main="Ratio of 
     students having any troubles related to mental health 
     to students who do not have any complaints about it")
+
+
+#get a ratio of students who had it prior to AUCA vs have it after attending AUCA
+mi_prior <- subset(mi, B1.1 == "Yes")
+mi_after <- subset(mi, B1.1 == "No")
+
+#create a pie chart demonstrating ratio mental issues vs. no mental issues
+slices_pr <- c(nrow(mi_prior), nrow(mi_after))
+lbls_pr <- c("Before AUCA", 
+             "After AUCA")
+pct_pr <- round(slices_pr/sum(slices_pr)*100)
+lbls_pr <- paste(lbls_pr, pct_pr) # add percents to labels
+lbls_pr <- paste(lbls_pr,"%",sep="") # ad % to labels
+pie(slices_pr,labels = lbls_pr, col=rainbow(length(lbls_pr)),
+    main="Ratio of 
+    students experienced mental issues before attending AUCA
+    to students who got them after attending AUCA")
 
 
 #get list of all majors containing students with mental issues
@@ -35,7 +51,7 @@ mi_maj_ibl <- subset(mi_maj, A2 == "International Business Law")
 mi_maj_soc <- subset(mi_maj, A2 == "Sociology")
 mi_maj_ba <- subset(mi_maj, A2 == "Business Administration")
 
-#create a pie chart with distribuition of students with mental issues among majors
+#create a pie chart with distribution of students with mental issues among majors
 slices <- c(nrow(mi_maj_eco), nrow(mi_maj_las), nrow(mi_maj_psy), nrow(mi_maj_ibl), nrow(mi_maj_soc), nrow(mi_maj_ba))
 lbls <- c("Economics", 
           "Liberal Arts and Science",
@@ -48,7 +64,31 @@ pct <- round(slices/sum(slices)*100)
 lbls <- paste(lbls, pct) # add percents to labels
 lbls <- paste(lbls,"%",sep="") # ad % to labels
 pie(slices,labels = lbls, col=rainbow(length(lbls)),
-    main="Spread of mental complaint among surveyed")
+    main="Spread of complaints related to mental health across majors")
+
+
+#get list of all years of study containing students with mental issues
+mi_ys <- subset(mi, select = c("A1"))
+print(mi_ys)
+
+#calculate the dataframe of students with mental issues for each major
+mi_ys_soph <- subset(mi_ys,A1 == "Sophomore")
+mi_ys_jun <- subset(mi_ys,A1 == "Junior")
+mi_ys_sen <- subset(mi_ys,A1 == "Senior")
+mi_ys_grad <- subset(mi_ys,A1 == "Graduate")
+
+#create a pie chart with distribution of students with mental issues among majors
+slices_ys <- c(nrow(mi_ys_soph), nrow(mi_ys_jun), nrow(mi_ys_sen), nrow(mi_ys_grad))
+lbls_ys <- c("Sophomore", 
+          "Junior",
+          "Senior", 
+          "Graduate")
+
+pct_ys <- round(slices_ys/sum(slices_ys)*100)
+lbls_ys <- paste(lbls_ys, pct_ys) # add percents to labels
+lbls_ys <- paste(lbls_ys,"%",sep="") # ad % to labels
+pie(slices_ys,labels = lbls_ys, col=topo.colors(length(lbls_ys)),
+    main="Spread of complaints related to mental health across years of study")
 
 
 #create distribution of physical complaints 
@@ -107,7 +147,7 @@ pie(slices_ph,labels = lbls_ph, col=rainbow(length(lbls_ph)),
 
 #create distribution of mental complaints 
 mi_men <- subset(mi, select = c("B2"))
-print(mi_ph)
+print(mi_men)
 
 vec_sym_men = c ("excessive worry",
                 "feeling sad or low",
@@ -115,7 +155,7 @@ vec_sym_men = c ("excessive worry",
                 "loss of pleasure or interest",
                 "feelings of worthlessness or guilt",
                 "withdrawal from social interactions",
-                "desire to",
+                "desire to \"put life on pause\"",
                 "thoughts on ending own life")
 
 vec_men = c(0, 0, 0, 0, 0, 0, 0, 0)
@@ -155,5 +195,3 @@ lbls_men <- paste(lbls_men,"%",sep="") # add % to labels
 pie(slices_men,labels = lbls_men, col=rainbow(length(lbls_men)),
     main="Spread of complaints related to mental health")
 
-#TODO YEAR OF STUDY
-#TODO PHYSICAL & EMOTIONAL DISTRIBUTION (contains)
