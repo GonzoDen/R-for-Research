@@ -100,9 +100,60 @@ slices_ph <- vec_ph
 lbls_ph <- vec_sym_ph
 pct_ph <- round(slices_ph/sum(slices_ph)*100)
 lbls_ph <- paste(lbls_ph, pct_ph) # add percents to labels
-lbls_ph <- paste(lbls_ph,"%",sep="") # ad % to labels
+lbls_ph <- paste(lbls_ph,"%",sep="") # add % to labels
 pie(slices_ph,labels = lbls_ph, col=rainbow(length(lbls_ph)),
     main="Spread of complaints related to physical health")
+
+
+#create distribution of mental complaints 
+mi_men <- subset(mi, select = c("B2"))
+print(mi_ph)
+
+vec_sym_men = c ("excessive worry",
+                "feeling sad or low",
+                "difficulty to control the worry",
+                "loss of pleasure or interest",
+                "feelings of worthlessness or guilt",
+                "withdrawal from social interactions",
+                "desire to",
+                "thoughts on ending own life")
+
+vec_men = c(0, 0, 0, 0, 0, 0, 0, 0)
+
+for(i in 1:nrow(mi_men)) {
+  if(grepl(vec_sym_men[1], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[1] %+=% 1
+  }
+  if(grepl(vec_sym_men[2], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[2] %+=% 1
+  }
+  if(grepl(vec_sym_men[3], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[3] %+=% 1
+  }
+  if(grepl(vec_sym_men[4], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[4] %+=% 1
+  }
+  if(grepl(vec_sym_men[5], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[5] %+=% 1
+  }
+  if(grepl(vec_sym_men[6], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[6] %+=% 1
+  }
+  if(grepl(vec_sym_men[7], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[7] %+=% 1
+  }
+  if(grepl(vec_sym_men[8], mi_men[i, "B2"], fixed = TRUE)){
+    vec_men[8] %+=% 1
+  }
+}
+
+slices_men <- vec_men
+lbls_men <- vec_sym_men
+pct_men <- round(slices_men/sum(slices_men)*100)
+lbls_men <- paste(lbls_men, pct_men) # add percents to labels
+lbls_men <- paste(lbls_men,"%",sep="") # add % to labels
+pie(slices_men,labels = lbls_men, col=rainbow(length(lbls_men)),
+    main="Spread of complaints related to mental health")
 
 #TODO YEAR OF STUDY
 #TODO PHYSICAL & EMOTIONAL DISTRIBUTION (contains)
