@@ -50,15 +50,17 @@ mi_maj_psy <- subset(mi_maj, A2 == "Psychology")
 mi_maj_ibl <- subset(mi_maj, A2 == "International Business Law")
 mi_maj_soc <- subset(mi_maj, A2 == "Sociology")
 mi_maj_ba <- subset(mi_maj, A2 == "Business Administration")
+mi_maj_icp <- subset(mi_maj, A2 == "International and Comparative Politics")
 
 #create a pie chart with distribution of students with mental issues among majors
-slices <- c(nrow(mi_maj_eco), nrow(mi_maj_las), nrow(mi_maj_psy), nrow(mi_maj_ibl), nrow(mi_maj_soc), nrow(mi_maj_ba))
+slices <- c(nrow(mi_maj_eco), nrow(mi_maj_las), nrow(mi_maj_psy), nrow(mi_maj_ibl), nrow(mi_maj_soc), nrow(mi_maj_ba), nrow(mi_maj_icp))
 lbls <- c("Economics", 
           "Liberal Arts and Science",
           "Psychology", 
           "International Business Law",
           "Sociology",
-          "Business Administration")
+          "Business Administration",
+          "International and Comparative Politics")
 
 pct <- round(slices/sum(slices)*100)
 lbls <- paste(lbls, pct) # add percents to labels
@@ -195,7 +197,7 @@ pie(slices_men,labels = lbls_men, col=rainbow(length(lbls_men)),
     main="Spread of complaints related to mental health")
 
 
-#create distribution of academic complaints 
+#create demonstrations of reasons for discontent with academic scheduling
 mi_ac <- subset(mi, select = c("C3"))
 
 vec_sym_ac = c ("They are scheduled too tightly to each other",
@@ -228,3 +230,69 @@ lbls_ac <- paste(lbls_ac,"%",sep="") # add % to labels
 pie(slices_ac,labels = lbls_ac, col=cm.colors(length(lbls_ac)),
     main="Discontent with academic scheduling")
 
+
+#create demonstrations of reasons for discontent with grading
+mi_gr <- subset(mi, select = c("C4"))
+
+vec_sym_gr = c ("Threshold for passing is too high",
+                "Inadequate weight spread",
+                "Grading criteria are unclear",
+                "Grades are announced too late",
+                "None")
+
+vec_gr = c(0, 0, 0, 0, 0)
+
+for(i in 1:nrow(mi_gr)) {
+  if(grepl(vec_sym_gr[1], mi_gr[i, "C4"], fixed = TRUE)){
+    vec_gr[1] %+=% 1
+  }
+  if(grepl(vec_sym_gr[2], mi_gr[i, "C4"], fixed = TRUE)){
+    vec_gr[2] %+=% 1
+  }
+  if(grepl(vec_sym_gr[3], mi_gr[i, "C4"], fixed = TRUE)){
+    vec_gr[3] %+=% 1
+  }
+  if(grepl(vec_sym_gr[4], mi_gr[i, "C4"], fixed = TRUE)){
+    vec_gr[4] %+=% 1
+  }
+  if(grepl(vec_sym_gr[5], mi_gr[i, "C4"], fixed = TRUE)){
+    vec_gr[5] %+=% 1
+  }
+}
+
+slices_gr <- vec_gr
+lbls_gr <- vec_sym_gr
+pct_gr <- round(slices_gr/sum(slices_gr)*100)
+lbls_gr <- paste(lbls_gr, pct_gr) # add percents to labels
+lbls_gr <- paste(lbls_gr,"%",sep="") # add % to labels
+pie(slices_gr,labels = lbls_gr, col=terrain.colors(length(lbls_gr)),
+    main="Discontent with grading")
+
+
+#get a ratio of students who knows about free counselling service at AUCA
+df_cs_y <- subset(df, D1 == "Yes")
+df_cs_n <- subset(df, D1 == "No")
+
+#create a pie chart demonstrating ratio know vs. does not know
+slices_cs <- c(nrow(df_cs_y), nrow(df_cs_n))
+lbls_cs <- c("Yes", 
+             "No")
+pct_cs <- round(slices_cs/sum(slices_cs)*100)
+lbls_cs <- paste(lbls_cs, pct_cs) # add percents to labels
+lbls_cs <- paste(lbls_cs,"%",sep="") # ad % to labels
+pie(slices_cs,labels = lbls_cs, col=cm.colors(length(lbls_cs)),
+    main="Do you know about free counseling service available at AUCA?")
+
+#get a ratio of students who knows about academic advising at AUCA
+df_ad_y <- subset(df, D2 == "Yes")
+df_ad_n <- subset(df, D2 == "No")
+
+#create a pie chart demonstrating ratio mental issues vs. no mental issues
+slices_ad <- c(nrow(df_ad_y), nrow(df_ad_n))
+lbls_ad <- c("Yes", 
+             "No")
+pct_ad <- round(slices_ad/sum(slices_ad)*100)
+lbls_ad <- paste(lbls_ad, pct_ad) # add percents to labels
+lbls_ad <- paste(lbls_ad,"%",sep="") # ad % to labels
+pie(slices_ad,labels = lbls_ad, col=terrain.colors(length(lbls_cs)),
+    main="Do you know about free academic advising available at AUCA?")
