@@ -141,13 +141,12 @@ lbls_ph <- vec_sym_ph
 pct_ph <- round(slices_ph/sum(slices_ph)*100)
 lbls_ph <- paste(lbls_ph, pct_ph) # add percents to labels
 lbls_ph <- paste(lbls_ph,"%",sep="") # add % to labels
-pie(slices_ph,labels = lbls_ph, col=rainbow(length(lbls_ph)),
+pie(slices_ph,labels = lbls_ph,
     main="Spread of complaints related to physical health")
 
 
 #create distribution of mental complaints 
 mi_men <- subset(mi, select = c("B2"))
-print(mi_men)
 
 vec_sym_men = c ("excessive worry",
                 "feeling sad or low",
@@ -194,4 +193,38 @@ lbls_men <- paste(lbls_men, pct_men) # add percents to labels
 lbls_men <- paste(lbls_men,"%",sep="") # add % to labels
 pie(slices_men,labels = lbls_men, col=rainbow(length(lbls_men)),
     main="Spread of complaints related to mental health")
+
+
+#create distribution of academic complaints 
+mi_ac <- subset(mi, select = c("C3"))
+
+vec_sym_ac = c ("They are scheduled too tightly to each other",
+                 "Distribution of workload is poorly designed",
+                 "Inadequate deadlines",
+                 "None")
+
+vec_ac = c(0, 0, 0, 0)
+
+for(i in 1:nrow(mi_ac)) {
+  if(grepl(vec_sym_ac[1], mi_ac[i, "C3"], fixed = TRUE)){
+    vec_ac[1] %+=% 1
+  }
+  if(grepl(vec_sym_ac[2], mi_ac[i, "C3"], fixed = TRUE)){
+    vec_ac[2] %+=% 1
+  }
+  if(grepl(vec_sym_ac[3], mi_ac[i, "C3"], fixed = TRUE)){
+    vec_ac[3] %+=% 1
+  }
+  if(grepl(vec_sym_ac[4], mi_ac[i, "C3"], fixed = TRUE)){
+    vec_ac[4] %+=% 1
+  }
+}
+
+slices_ac <- vec_ac
+lbls_ac <- vec_sym_ac
+pct_ac <- round(slices_ac/sum(slices_ac)*100)
+lbls_ac <- paste(lbls_ac, pct_ac) # add percents to labels
+lbls_ac <- paste(lbls_ac,"%",sep="") # add % to labels
+pie(slices_ac,labels = lbls_ac, col=cm.colors(length(lbls_ac)),
+    main="Discontent with academic scheduling")
 
